@@ -8,7 +8,7 @@ Capacidades avanzadas del protocolo, más allá de las tres primitivas básicas.
 
 | # | Nota | Qué cubre |
 |---|------|-----------|
-| 01 | [Sampling](./01-sampling.md) | El servidor le pide al cliente que llame a Claude |
+| 01 | [Sampling](./01-sampling.md) | El servidor le pide al cliente que llame al modelo |
 | 02 | [Logging y progreso](./02-logging-y-progreso.md) | Feedback en tiempo real durante operaciones largas |
 | 03 | [Roots](./03-roots.md) | Acceso controlado a archivos y carpetas locales |
 | 04 | [Mensajes JSON](./04-mensajes-json.md) | Tipos de mensajes: request/result y notificaciones |

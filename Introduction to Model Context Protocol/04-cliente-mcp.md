@@ -27,8 +27,8 @@ flowchart TB
 
 ¿Te acordás del [flujo completo](./02-arquitectura-y-flujo.md)? El cliente es lo que conecta tu código con el servidor MCP en **dos puntos clave**:
 
-1. **Obtener la lista de tools** para enviársela a Claude.
-2. **Ejecutar las tools** cuando Claude las pide.
+1. **Obtener la lista de tools** para enviársela al modelo.
+2. **Ejecutar las tools** cuando el modelo las pide.
 
 ## Las dos funciones esenciales
 
@@ -55,7 +55,7 @@ async def call_tool(
     return await self.session().call_tool(tool_name, tool_input)
 ```
 
-Le mandás el nombre y los argumentos (que vienen de Claude) y devolvés el resultado.
+Le mandás el nombre y los argumentos (que vienen del modelo) y devolvés el resultado.
 
 ## Probar el cliente
 
@@ -83,7 +83,7 @@ sequenceDiagram
     participant App as main.py
     participant Cli as Cliente MCP
     participant Srv as Servidor MCP
-    participant Cl as Claude
+    participant Cl as Modelo
 
     U->>App: "¿Contenido de report.pdf?"
     App->>Cli: list_tools()

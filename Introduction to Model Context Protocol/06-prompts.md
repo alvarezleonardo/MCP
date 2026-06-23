@@ -4,7 +4,7 @@ Los **prompts** permiten definir instrucciones predefinidas y de alta calidad qu
 
 ## ¿Por qué usar prompts?
 
-Un usuario ya puede pedirle a Claude casi cualquier cosa directamente. Por ejemplo: *"reformateá report.pdf a Markdown"* y obtener algo aceptable. Pero el resultado es **mucho mejor** con un prompt especializado y probado que contempla casos límite y sigue buenas prácticas.
+Un usuario ya puede pedirle al modelo casi cualquier cosa directamente. Por ejemplo: *"reformateá report.pdf a Markdown"* y obtener algo aceptable. Pero el resultado es **mucho mejor** con un prompt especializado y probado que contempla casos límite y sigue buenas prácticas.
 
 Como autor del servidor MCP, dedicás tiempo a **diseñar, probar y evaluar** prompts que funcionan consistentemente en distintos escenarios. Los usuarios se benefician de esa experiencia sin tener que volverse expertos en *prompt engineering*.
 
@@ -17,8 +17,8 @@ flowchart LR
     U["Usuario escribe /"] --> List["Ve comandos disponibles"]
     List --> Sel["Elige /format + doc_id"]
     Sel --> Prompt["Servidor devuelve<br/>el prompt predefinido"]
-    Prompt --> Claude["Claude lee y<br/>reformatea el documento"]
-    Claude --> MD["Markdown limpio:<br/>encabezados, listas, tablas"]
+    Prompt --> Modelo["El modelo lee y<br/>reformatea el documento"]
+    Modelo --> MD["Markdown limpio:<br/>encabezados, listas, tablas"]
 ```
 
 ## Definir prompts
@@ -52,7 +52,7 @@ def format_document(
     ]
 ```
 
-La función devuelve una **lista de mensajes** que se envían directo a Claude. Podés incluir varios mensajes de usuario y asistente para armar flujos conversacionales más complejos.
+La función devuelve una **lista de mensajes** que se envían directo al modelo. Podés incluir varios mensajes de usuario y asistente para armar flujos conversacionales más complejos.
 
 ## Prompts en el cliente
 
@@ -86,7 +86,7 @@ sequenceDiagram
     participant App as CLI
     participant Cli as Cliente MCP
     participant Srv as Servidor MCP
-    participant Cl as Claude
+    participant Cl as Modelo
 
     U->>App: /format plan.md
     App->>Cli: get_prompt("format", {doc_id: "plan.md"})

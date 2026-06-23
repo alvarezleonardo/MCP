@@ -27,7 +27,7 @@ docs = {
 
 ## Definir tools con decoradores
 
-El SDK usa decoradores. Con *type hints* de Python y descripciones de campos, **genera el esquema automáticamente** para que Claude lo entienda.
+El SDK usa decoradores. Con *type hints* de Python y descripciones de campos, **genera el esquema automáticamente** para que el modelo lo entienda.
 
 ### Tool de lectura
 
@@ -46,7 +46,7 @@ def read_document(
     return docs[doc_id]
 ```
 
-El decorador define **nombre** y **descripción** de la tool; los parámetros de la función definen los **argumentos**. La clase `Field` de Pydantic aporta descripciones que ayudan a Claude a entender qué espera cada parámetro.
+El decorador define **nombre** y **descripción** de la tool; los parámetros de la función definen los **argumentos**. La clase `Field` de Pydantic aporta descripciones que ayudan al modelo a entender qué espera cada parámetro.
 
 ### Tool de edición
 
@@ -74,12 +74,12 @@ flowchart LR
     Dev["Definís una función<br/>con type hints + Field"] --> SDK["SDK de MCP"]
     SDK --> Schema["Genera el esquema JSON"]
     SDK --> Reg["Registra la tool"]
-    Schema --> Claude["Claude entiende<br/>cómo llamarla"]
+    Schema --> Modelo["El modelo entiende<br/>cómo llamarla"]
 ```
 
 - No escribís esquemas JSON a mano.
 - Los *type hints* dan validación automática.
-- Las descripciones de parámetros ayudan a Claude a usar bien la tool.
+- Las descripciones de parámetros ayudan al modelo a usar bien la tool.
 - El manejo de errores se integra natural con las excepciones de Python.
 - El registro de la tool es automático vía decorador.
 
@@ -123,7 +123,7 @@ Es parte central del ciclo de desarrollo. En vez de escribir scripts de prueba s
 ## Para llevar
 
 - Las tools se definen con `@mcp.tool(...)` y *type hints*; el SDK genera el esquema.
-- Las tools están **controladas por el modelo**: Claude decide cuándo llamarlas.
+- Las tools están **controladas por el modelo**: el modelo decide cuándo llamarlas.
 - El **Inspector** (`mcp dev`) te deja probar el servidor en el navegador antes de conectar una app.
 
 ➡️ Siguiente: [04 — Implementar el cliente MCP](./04-cliente-mcp.md)
