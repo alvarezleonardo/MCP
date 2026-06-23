@@ -12,12 +12,12 @@ flowchart LR
     end
     Server["Servidor MCP"]
     Ext["Servicio externo<br/>(GitHub, FS, DB...)"]
-    Claude["Modelo (Claude)"]
+    Modelo["Modelo (LLM)"]
 
     Logic <--> Client
     Client <-->|protocolo MCP| Server
     Server --> Ext
-    Logic <-->|API| Claude
+    Logic <-->|API| Modelo
 ```
 
 - **Host / aplicación:** tu código (en este curso, una CLI de chat).
@@ -61,7 +61,7 @@ sequenceDiagram
     participant Cli as Cliente MCP
     participant Srv as Servidor MCP
     participant GH as API GitHub
-    participant Cl as Claude
+    participant Cl as Modelo
 
     U->>App: "¿Qué repos tengo?"
     App->>Cli: ListToolsRequest
@@ -86,13 +86,13 @@ En palabras:
 1. **Consulta del usuario** → llega a tu app.
 2. **Descubrimiento de tools** → tu app pide al cliente MCP las tools disponibles.
 3. **Intercambio de lista** → el cliente manda `ListToolsRequest` y recibe `ListToolsResult`.
-4. **Pedido a Claude** → tu app envía la consulta + las tools a Claude.
-5. **Decisión** → Claude decide que necesita llamar una tool.
+4. **Pedido al modelo** → tu app envía la consulta + las tools al modelo.
+5. **Decisión** → el modelo decide que necesita llamar una tool.
 6. **Ejecución** → tu app pide al cliente que ejecute la tool elegida.
 7. **Llamada externa** → el cliente manda `CallToolRequest`; el servidor llama a GitHub.
 8. **Vuelta del resultado** → GitHub responde, fluye de vuelta como `CallToolResult`.
-9. **Resultado a Claude** → tu app le pasa el resultado a Claude.
-10. **Respuesta final** → Claude formula la respuesta y el usuario la recibe.
+9. **Resultado al modelo** → tu app le pasa el resultado al modelo.
+10. **Respuesta final** → el modelo formula la respuesta y el usuario la recibe.
 
 Son varios pasos, pero cada componente tiene una función clara. El **cliente MCP simplifica la comunicación** con el servidor, así vos te concentrás en la lógica de tu app mientras accedés a herramientas y datos externos potentes.
 

@@ -9,7 +9,7 @@ Querés que los usuarios escriban `@nombre_del_documento` para referenciar archi
 1. Listar todos los documentos disponibles (para autocompletar).
 2. Obtener el contenido de un documento puntual (cuando se lo menciona).
 
-Cuando el usuario menciona un documento, tu sistema **inserta automáticamente** su contenido en el mensaje que va a Claude. Así Claude no necesita usar una tool para obtener esa info: ya viene en el contexto.
+Cuando el usuario menciona un documento, tu sistema **inserta automáticamente** su contenido en el mensaje que va al modelo. Así el modelo no necesita usar una tool para obtener esa info: ya viene en el contexto.
 
 ## Cómo funcionan
 
@@ -114,7 +114,7 @@ En la CLI, al escribir `@` seguido de un nombre, el sistema:
 1. Muestra los recursos disponibles en autocompletado.
 2. Te deja elegir con flechas/espacio.
 3. Inserta el contenido del recurso directo en tu pregunta.
-4. Manda todo a Claude **sin** llamadas a tools extra.
+4. Manda todo al modelo **sin** llamadas a tools extra.
 
 Esto da una experiencia más fluida: el contenido pasa a formar parte del contexto inicial y las respuestas son inmediatas.
 

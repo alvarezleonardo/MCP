@@ -110,7 +110,7 @@ flowchart TB
     Note["GET SSE y POST pueden caer en<br/>instancias distintas → problema de coordinación"]
 ```
 
-El problema: un cliente necesita **dos conexiones** (un `GET` SSE para recibir solicitudes servidor→cliente, y `POST` para llamar tools). Con un balanceador, podrían caer en instancias distintas. Si tu tool necesita Claude (vía sampling), la instancia que atiende el POST tendría que coordinarse con la que tiene el GET SSE: un lío de coordinación entre servidores.
+El problema: un cliente necesita **dos conexiones** (un `GET` SSE para recibir solicitudes servidor→cliente, y `POST` para llamar tools). Con un balanceador, podrían caer en instancias distintas. Si tu tool necesita el modelo (vía sampling), la instancia que atiende el POST tendría que coordinarse con la que tiene el GET SSE: un lío de coordinación entre servidores.
 
 `stateless_http=True` elimina ese problema de coordinación, **pero con costos importantes**:
 
@@ -118,7 +118,7 @@ El problema: un cliente necesita **dos conexiones** (un `GET` SSE para recibir s
 |--------------------|--------------|
 | Sin session-id | El servidor no puede rastrear clientes individuales |
 | Sin GET SSE | ❌ No hay solicitudes servidor → cliente |
-| Sin sampling | ❌ No se puede usar Claude desde el servidor |
+| Sin sampling | ❌ No se puede usar el modelo desde el servidor |
 | Sin progreso | ❌ No hay updates durante operaciones largas |
 | Sin suscripciones | ❌ No se notifican actualizaciones de recursos |
 | ✅ Ventaja | Ya no se requiere la inicialización del cliente; los clientes hacen solicitudes directas |

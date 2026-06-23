@@ -2,17 +2,19 @@
 
 ## La idea en una frase
 
-El **Model Context Protocol (MCP)** es una capa de comunicación que le da a Claude el **contexto** y las **herramientas** que necesita, sin que vos tengas que escribir un montón de código de integración tedioso.
+El **Model Context Protocol (MCP)** es una capa de comunicación que le da al modelo el **contexto** y las **herramientas** que necesita, sin que vos tengas que escribir un montón de código de integración tedioso.
 
 La clave: MCP **traslada la responsabilidad** de definir y ejecutar herramientas desde tu aplicación hacia **servidores MCP especializados**.
 
+> **Nota sobre el "modelo".** MCP es un estándar abierto **independiente del proveedor**: donde leas "el modelo" o "el LLM", aplica a cualquiera (Claude, GPT, Gemini, modelos locales...). Los proyectos de ejemplo usan Claude solo como implementación concreta. Ver [Independiente del modelo](../README.md#independiente-del-modelo-model-agnostic) en el README.
+
 ## El problema que resuelve
 
-Supongamos que armás una interfaz de chat donde los usuarios le preguntan a Claude sobre sus datos de GitHub. Un usuario escribe:
+Supongamos que armás una interfaz de chat donde los usuarios le preguntan al modelo sobre sus datos de GitHub. Un usuario escribe:
 
 > "¿Qué pull requests abiertas tengo en todos mis repos?"
 
-Para responder, Claude necesita herramientas para acceder a la API de GitHub. Y GitHub es **enorme**: repos, pull requests, issues, proyectos, releases, webhooks... Sin MCP, tendrías que:
+Para responder, el modelo necesita herramientas para acceder a la API de GitHub. Y GitHub es **enorme**: repos, pull requests, issues, proyectos, releases, webhooks... Sin MCP, tendrías que:
 
 1. Escribir el esquema JSON de **cada** herramienta.
 2. Implementar la función que llama a la API de GitHub.
@@ -67,7 +69,7 @@ Un servidor MCP ya trae los esquemas y funciones de las tools **definidos**. Si 
 Error común. Son conceptos **complementarios pero distintos**:
 
 - **MCP** provee esquemas y funciones de herramientas ya implementadas.
-- **Tool use** es *cómo* Claude decide llamarlas.
+- **Tool use** es *cómo* el modelo decide llamarlas.
 
 La diferencia clave es **quién hace el trabajo**: con MCP, alguien más ya implementó las herramientas. En lugar de mantener un set complejo de integraciones, aprovechás servidores MCP que se encargan del trabajo pesado de conectarse a servicios externos.
 

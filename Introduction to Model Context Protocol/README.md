@@ -23,7 +23,7 @@ Al terminar este módulo vas a entender las **tres primitivas** de un servidor M
 | [`cli_project/`](./cli_project/) | Punto de partida con TODOs para completar mientras seguís las notas |
 | [`cli_project_COMPLETE/`](./cli_project_COMPLETE/) | Solución completa de referencia |
 
-Ambos implementan un **servidor de gestión documental** (leer/editar documentos en memoria) y una **CLI de chat** que conversa con Claude usando ese servidor.
+Ambos implementan un **servidor de gestión documental** (leer/editar documentos en memoria) y una **CLI de chat** que conversa con el modelo usando ese servidor.
 
 ### Cómo correr
 

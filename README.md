@@ -1,6 +1,8 @@
 # Curso de Model Context Protocol (MCP)
 
-Apuntes en español y proyectos de ejemplo para aprender el **Model Context Protocol (MCP)**: el estándar abierto que conecta modelos como Claude con herramientas, datos y servicios externos sin tener que escribir toda la integración a mano.
+Apuntes en español y proyectos de ejemplo para aprender el **Model Context Protocol (MCP)**: el estándar abierto que conecta modelos de lenguaje (LLMs) con herramientas, datos y servicios externos sin tener que escribir toda la integración a mano.
+
+> **MCP es independiente del modelo.** Es un estándar abierto: el mismo servidor MCP funciona con cualquier LLM y cualquier aplicación que implemente el protocolo. Los proyectos de ejemplo de este curso usan Claude (vía el SDK de Anthropic) como **una** implementación concreta, pero el cliente y el modelo son intercambiables. Ver [Independiente del modelo](#independiente-del-modelo-model-agnostic).
 
 El material está organizado en dos módulos. Cada módulo combina:
 
@@ -17,24 +19,57 @@ MCP es una **capa de comunicación estandarizada** entre tu aplicación (el host
 
 ```mermaid
 flowchart LR
-    subgraph TU_APP["Tu aplicación"]
-        Host["Host + Cliente MCP"]
+    subgraph TU_APP["Tu aplicación (Host)"]
+        Host["Cliente MCP"]
     end
     subgraph SERVERS["Servidores MCP"]
         S1["Servidor GitHub"]
         S2["Servidor Documentos"]
         S3["Servidor Filesystem"]
     end
-    Claude["Modelo (Claude)"]
+    LLM["Modelo (LLM)<br/>Claude / GPT / Gemini / local..."]
 
     Host <-->|protocolo MCP| S1
     Host <-->|protocolo MCP| S2
     Host <-->|protocolo MCP| S3
-    Host <-->|API| Claude
+    Host <-->|API del proveedor| LLM
 
     S1 --> GH["API de GitHub"]
     S3 --> FS["Archivos locales"]
 ```
+
+---
+
+## Independiente del modelo (model-agnostic)
+
+MCP **no está atado a ningún proveedor de IA**. Es un estándar abierto, igual que HTTP: define *cómo* se hablan cliente y servidor, no *qué* modelo hay detrás.
+
+```mermaid
+flowchart TB
+    subgraph CLIENTES["Hosts / clientes MCP (cualquiera)"]
+        C1["Claude Desktop"]
+        C2["Un IDE / editor"]
+        C3["Tu app propia<br/>(GPT, Gemini, Llama, local...)"]
+    end
+    subgraph PROTO["Protocolo MCP (estándar)"]
+        P["mismas tools, recursos y prompts"]
+    end
+    subgraph SERV["Servidores MCP"]
+        S1["GitHub"]
+        S2["Filesystem"]
+        S3["Base de datos"]
+    end
+    C1 & C2 & C3 --> P
+    P --> S1 & S2 & S3
+```
+
+Qué significa en la práctica:
+
+- **El servidor MCP no sabe ni le importa qué LLM lo usa.** Exponé tus tools una vez y sirven para cualquier cliente compatible.
+- **El LLM es un componente intercambiable del host.** En este curso el host llama a Claude, pero podés cambiar esa parte por GPT, Gemini, Llama, un modelo local, etc., sin tocar el servidor MCP.
+- **En las notas decimos "el modelo" o "el LLM"** para referirnos a ese rol genérico. Cuando aparece *Claude* o *Anthropic*, es porque se está hablando de la **implementación concreta de ejemplo** (el SDK que usan los proyectos), no de un requisito del protocolo.
+
+> Para adaptar los ejemplos a otro proveedor, reemplazá la capa que llama al modelo (en los proyectos, `core/claude.py`) por el SDK del proveedor que prefieras. El código MCP (servidor, tools, recursos, prompts) queda igual.
 
 ---
 
@@ -77,7 +112,7 @@ Capacidades avanzadas del protocolo: pedirle al cliente que llame al modelo (sam
 
 - **Python 3.10+**
 - **[uv](https://docs.astral.sh/uv/)** como gestor de entornos y dependencias.
-- Una **API key de Anthropic** (para los proyectos que llaman a Claude), en un archivo `.env`:
+- Una **API key del proveedor de LLM**. Los proyectos de ejemplo vienen cableados a Claude, así que usan una **API key de Anthropic** en un archivo `.env` (si adaptás los ejemplos a otro proveedor, cambiá esta credencial y la capa que llama al modelo):
 
   ```env
   ANTHROPIC_API_KEY=tu_api_key

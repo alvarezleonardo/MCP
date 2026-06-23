@@ -10,16 +10,16 @@ flowchart TB
         Resources["📄 Recursos<br/>controla la APLICACIÓN"]
         Prompts["💬 Prompts<br/>controla el USUARIO"]
     end
-    Claude["Claude decide<br/>cuándo llamarlas"] --> Tools
+    Modelo["El modelo decide<br/>cuándo llamarlas"] --> Tools
     AppCode["Tu código decide<br/>cuándo obtenerlos"] --> Resources
     User["El usuario dispara<br/>el flujo"] --> Prompts
 ```
 
 ## Herramientas — controladas por el modelo
 
-Las tools las controla **íntegramente Claude**. El modelo decide cuándo llamarlas y usa los resultados directamente para resolver tareas.
+Las tools las controla **íntegramente el modelo**. El modelo decide cuándo llamarlas y usa los resultados directamente para resolver tareas.
 
-Son perfectas para darle a Claude **capacidades nuevas** que use de forma autónoma. Cuando le pedís *"calculá la raíz cuadrada de 3 con JavaScript"*, es Claude quien decide usar una tool de ejecución de JS.
+Son perfectas para darle al modelo **capacidades nuevas** que use de forma autónoma. Cuando le pedís *"calculá la raíz cuadrada de 3 con JavaScript"*, es el modelo quien decide usar una tool de ejecución de JS.
 
 ## Recursos — controlados por la aplicación
 
@@ -43,18 +43,18 @@ Los prompts se disparan con **acciones del usuario**: clics en botones, seleccio
 ```mermaid
 flowchart TD
     Q{¿Qué necesitás?}
-    Q -->|Darle una capacidad nueva a Claude| T["🔧 Herramienta"]
+    Q -->|Darle una capacidad nueva al modelo| T["🔧 Herramienta"]
     Q -->|Traer datos para la UI o el contexto| R["📄 Recurso"]
     Q -->|Un flujo predefinido que el usuario dispara| P["💬 Prompt"]
 ```
 
 | Necesidad | Primitiva |
 |-----------|-----------|
-| Darle nuevas capacidades a Claude | **Herramientas** |
+| Darle nuevas capacidades al modelo | **Herramientas** |
 | Obtener datos para la UI o el contexto | **Recursos** |
 | Crear flujos predefinidos para usuarios | **Prompts** |
 
-Podés ver las tres en acción en la interfaz oficial de Claude: los **botones de flujo** muestran prompts, la integración con **Google Drive** muestra recursos, y cuando Claude **ejecuta código o calcula** usa herramientas internas.
+Podés ver las tres en acción en la interfaz oficial del modelo: los **botones de flujo** muestran prompts, la integración con **Google Drive** muestra recursos, y cuando el modelo **ejecuta código o calcula** usa herramientas internas.
 
 ## Para llevar
 

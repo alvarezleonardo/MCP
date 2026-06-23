@@ -6,7 +6,7 @@ MCP usa **mensajes JSON** para toda la comunicación entre clientes y servidores
 
 Toda la comunicación de MCP son mensajes JSON. Cada tipo tiene un propósito específico: llamar una tool, listar recursos, enviar notificaciones de eventos, etc.
 
-Ejemplo típico: cuando Claude necesita llamar una tool de un servidor MCP, el cliente envía un mensaje **"Call Tool Request"**. El servidor lo procesa, ejecuta la tool y responde con un **"Call Tool Result"** con la salida.
+Ejemplo típico: cuando el modelo necesita llamar una tool de un servidor MCP, el cliente envía un mensaje **"Call Tool Request"**. El servidor lo procesa, ejecuta la tool y responde con un **"Call Tool Result"** con la salida.
 
 ## La especificación MCP
 

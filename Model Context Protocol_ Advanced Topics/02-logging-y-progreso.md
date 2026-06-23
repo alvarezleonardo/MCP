@@ -4,7 +4,7 @@ El **logging** y las **notificaciones de progreso** son fáciles de implementar 
 
 ## El problema
 
-Cuando Claude ejecuta una tool que tarda —investigar un tema, procesar datos— el usuario normalmente **no ve nada** hasta que termina. Es frustrante: ¿está trabajando o se colgó?
+Cuando el modelo ejecuta una tool que tarda —investigar un tema, procesar datos— el usuario normalmente **no ve nada** hasta que termina. Es frustrante: ¿está trabajando o se colgó?
 
 ```mermaid
 flowchart LR
