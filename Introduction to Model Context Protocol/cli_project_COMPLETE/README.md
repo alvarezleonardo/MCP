@@ -1,111 +1,75 @@
-# MCP Chat
+# MCP Chat (solución completa)
 
-MCP Chat is a command-line interface application that enables interactive chat capabilities with AI models through the Anthropic API. The application supports document retrieval, command-based prompts, and extensible tool integrations via the MCP (Model Control Protocol) architecture.
+Aplicación de línea de comandos que habilita un chat interactivo con un modelo de lenguaje (vía la API de Anthropic) y le suma herramientas, recursos y prompts a través de un servidor **MCP (Model Context Protocol)**.
 
-## Prerequisites
+Esta es la **solución de referencia** del Módulo 1: el servidor de gestión documental y el cliente MCP completamente implementados. Si querés hacer el ejercicio desde cero, usá [`../cli_project`](../cli_project/), que trae los mismos archivos con TODOs para completar.
 
-- Python 3.9+
-- Anthropic API Key
+> Teoría paso a paso en las notas del módulo: [Qué es MCP](../01-que-es-mcp.md) · [Arquitectura](../02-arquitectura-y-flujo.md) · [Herramientas](../03-herramientas-e-inspector.md) · [Cliente](../04-cliente-mcp.md) · [Recursos](../05-recursos.md) · [Prompts](../06-prompts.md).
 
-## Setup
+## Requisitos
 
-### Step 1: Configure the environment variables
+- Python 3.10+
+- API key de Anthropic (los ejemplos usan Claude como implementación concreta; ver la sección [Independiente del modelo](../../README.md#independiente-del-modelo-model-agnostic) del README raíz).
 
-1. Create or edit the `.env` file in the project root and verify that the following variables are set correctly:
+## Configuración
+
+Creá un archivo `.env` en la raíz del proyecto con tu credencial:
 
 ```
-ANTHROPIC_API_KEY=""  # Enter your Anthropic API secret key
+ANTHROPIC_API_KEY=""   # tu clave secreta de Anthropic
 ```
 
-### Step 2: Install dependencies
+## Instalación
 
-#### Option 1: Setup with uv (Recommended)
-
-[uv](https://github.com/astral-sh/uv) is a fast Python package installer and resolver.
-
-1. Install uv, if not already installed:
+Con [uv](https://docs.astral.sh/uv/) (recomendado):
 
 ```bash
-pip install uv
+uv sync
 ```
 
-2. Create and activate a virtual environment:
+## Cómo correr
 
 ```bash
-uv venv
-source .venv/bin/activate  # On Windows: .venv\Scripts\activate
-```
-
-3. Install dependencies:
-
-```bash
-uv pip install -e .
-```
-
-4. Run the project
-
-```bash
+# Aplicación CLI de chat completa
 uv run main.py
+
+# Inspector de MCP en el navegador (probar el servidor sin la CLI)
+uv run mcp dev mcp_server.py
 ```
 
-#### Option 2: Setup without uv
+## Uso
 
-1. Create and activate a virtual environment:
+### Chat básico
 
-```bash
-python -m venv .venv
-source .venv/bin/activate  # On Windows: .venv\Scripts\activate
-```
+Escribí tu mensaje y presioná Enter para conversar con el modelo.
 
-2. Install dependencies:
+### Recuperación de documentos (recursos)
 
-```bash
-pip install anthropic python-dotenv prompt-toolkit "mcp[cli]==1.8.0"
-```
-
-3. Run the project
-
-```bash
-python main.py
-```
-
-## Usage
-
-### Basic Interaction
-
-Simply type your message and press Enter to chat with the model.
-
-### Document Retrieval
-
-Use the @ symbol followed by a document ID to include document content in your query:
+Usá `@` seguido del ID de un documento para incluir su contenido en la consulta:
 
 ```
-> Tell me about @deposition.md
+> Contame sobre @deposition.md
 ```
 
-### Commands
+### Comandos (prompts)
 
-Use the / prefix to execute commands defined in the MCP server:
+Usá el prefijo `/` para ejecutar prompts definidos en el servidor MCP (autocompletan con Tab):
 
 ```
 > /summarize deposition.md
 ```
 
-Commands will auto-complete when you press Tab.
+## Estructura
 
-## Development
+| Archivo | Rol |
+|---------|-----|
+| `mcp_server.py` | Servidor MCP: define tools (`read_doc_contents`, `edit_document`), recursos y prompts |
+| `mcp_client.py` | Cliente MCP: `list_tools`, `call_tool`, `read_resource`, `list_prompts`, `get_prompt` |
+| `main.py` | Punto de entrada de la CLI |
+| `core/` | Lógica de la app: chat, integración con el modelo, CLI y orquestación de tools |
 
-### Adding New Documents
+### Agregar documentos
 
-Edit the `mcp_server.py` file to add new documents to the `docs` dictionary.
+Editá el diccionario `docs` en `mcp_server.py`.
 
-### Implementing MCP Features
-
-To fully implement the MCP features:
-
-1. Complete the TODOs in `mcp_server.py`
-2. Implement the missing functionality in `mcp_client.py`
-
-### Linting and Typing Check
-
-There are no lint or type checks implemented.
+> Nota: `core/` es prácticamente idéntico al de [`../cli_project`](../cli_project/); lo que cambia entre la base y la solución es el contenido de `mcp_server.py` y `mcp_client.py`.

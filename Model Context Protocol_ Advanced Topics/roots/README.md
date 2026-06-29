@@ -1,91 +1,90 @@
-# MCP Chat with File System Access
+# MCP Chat con acceso al sistema de archivos (roots)
 
-MCP Chat is a command-line interface application that enables interactive chat capabilities with AI models through the Anthropic API. The application supports file system operations with controlled access to specified directories, video conversion capabilities, and extensible tool integrations via the MCP (Model Control Protocol) architecture.
+Aplicación de línea de comandos que habilita un chat interactivo con un modelo de lenguaje (vía la API de Anthropic) y le suma, a través de un servidor **MCP (Model Context Protocol)**, acceso **controlado** al sistema de archivos mediante **roots**, además de una tool de conversión de video.
 
-## Prerequisites
+> Teoría: [03 — Roots (raíces)](../03-roots.md).
+
+## Requisitos
 
 - Python 3.10+
-- Anthropic API Key
-- FFmpeg (for video conversion features)
+- API key de Anthropic (los ejemplos usan Claude; ver [Independiente del modelo](../../README.md#independiente-del-modelo-model-agnostic)).
+- FFmpeg (para la conversión de video).
 
-## Setup
+## Configuración
 
-_You must have FFmpeg already installed to convert a video file_. To install FFmpeg on MacOS run:
+Primero instalá FFmpeg (necesario para convertir videos). En macOS:
 
-```
+```bash
 brew install ffmpeg
 ```
 
-### Step 1: Configure the environment variables
+### Variables de entorno
 
-1. Copy the `.env.example` file to create a new `.env` file:
+Copiá `.env.example` a `.env` y completá tus valores:
 
 ```bash
 cp .env.example .env
 ```
 
-2. Edit the `.env` file and set your environment variables:
-
 ```
-CLAUDE_MODEL="claude-sonnet-4-0"  # Or your preferred Claude model
-ANTHROPIC_API_KEY=""  # Enter your Anthropic API secret key
+CLAUDE_MODEL="claude-sonnet-4-0"   # o el modelo de Claude que prefieras
+ANTHROPIC_API_KEY=""               # tu clave secreta de Anthropic
 ```
 
-### Step 2: Install dependencies
+## Instalación
 
-#### Setup with uv
-
-[uv](https://github.com/astral-sh/uv) is a fast Python package installer and resolver.
-
-1. Install uv, if not already installed:
-
-```bash
-pip install uv
-```
-
-2. Install dependencies:
+Con [uv](https://docs.astral.sh/uv/):
 
 ```bash
 uv sync
 ```
 
-3. Run the project
+## Cómo correr
 
-When running the project, you must specify one or more root directories that the MCP server will have access to. Only files and directories within these roots can be accessed by the server.
+Al iniciar el proyecto debés indicar uno o más **directorios raíz (roots)** a los que el servidor MCP tendrá acceso. Solo se podrán leer archivos y carpetas **dentro** de esos roots:
 
 ```bash
 uv run main.py <root1> [root2] [root3] ...
 ```
 
-Examples:
+Ejemplos:
 
 ```bash
-# Single directory
-uv run main.py /path/to/videos
+# Un directorio
+uv run main.py /ruta/a/videos
 
-# Multiple directories
-uv run main.py /home/user/videos /mnt/storage/media ~/Documents
+# Varios directorios
+uv run main.py /home/user/videos /mnt/storage/media ~/Documentos
 
-# Current directory
+# Directorio actual
 uv run main.py .
 ```
 
-## Features
+## Características
 
-### File System Access
+### Acceso controlado al sistema de archivos
 
-The server can only access files and directories within the specified root paths. This provides security by limiting file system access to approved locations.
+El servidor solo puede acceder a archivos y carpetas dentro de los roots indicados. Esto aporta seguridad al limitar el acceso a ubicaciones aprobadas.
 
-### Available Tools
+### Tools disponibles
 
-- **list_roots**: List all accessible root directories
-- **read_dir**: Read contents of a directory (must be within a root)
-- **convert_video**: Convert MP4 videos to other formats (avi, mov, webm, mkv, gif)
+- **list_roots**: lista los directorios raíz accesibles.
+- **read_dir**: lee el contenido de un directorio (debe estar dentro de un root).
+- **convert_video**: convierte videos MP4 a otros formatos (avi, mov, webm, mkv, gif).
 
-### Video Conversion
+### Conversión de video
 
-The video conversion tool uses FFmpeg to convert MP4 files to various formats:
+La tool de conversión usa FFmpeg para pasar archivos MP4 a varios formatos:
 
-- Standard video formats: AVI, MOV, WebM, MKV
-- GIF conversion with optimized settings
-- Medium quality preset for balanced file size and quality
+- Formatos estándar: AVI, MOV, WebM, MKV.
+- Conversión a GIF con ajustes optimizados.
+- Preset de calidad media para equilibrar tamaño y calidad.
+
+## Estructura
+
+| Archivo | Rol |
+|---------|-----|
+| `mcp_server.py` | Servidor MCP: tools de filesystem (con chequeo de roots) y conversión de video |
+| `mcp_client.py` | Cliente MCP |
+| `main.py` | Punto de entrada de la CLI (recibe los roots como argumentos) |
+| `core/` | Lógica de la app: chat, integración con el modelo, CLI y conversión de video |
