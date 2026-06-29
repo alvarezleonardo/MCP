@@ -143,3 +143,17 @@ uv run main.py
 - Introducción a MCP: <https://modelcontextprotocol.io/introduction>
 - Especificación del protocolo: <https://spec.modelcontextprotocol.io>
 - Guía de instalación de uv: <https://docs.astral.sh/uv/>
+
+## Créditos y atribución
+
+El material teórico y los proyectos de ejemplo están basados en los cursos de **Anthropic** sobre Model Context Protocol: *Introduction to Model Context Protocol* y *Model Context Protocol: Advanced Topics*. Los documentos fuente originales se conservan en [`assets/`](./assets/).
+
+Las **notas en español** (archivos `.md`) y los **diagramas** son una reelaboración propia de ese material. El **código** de los proyectos de ejemplo pertenece a sus autores originales (Anthropic) y se incluye con fines educativos.
+
+> Si sos el autor del material original y querés ajustar la atribución o el alcance de uso, abrí un issue.
+
+## Licencia
+
+El trabajo propio de este repositorio (notas en español, diagramas y documentación) se publica bajo licencia [MIT](./LICENSE).
+
+La licencia MIT cubre la reelaboración propia; **no** se extiende al material original del curso ni al código de ejemplo de terceros, que conservan los derechos de sus autores.
