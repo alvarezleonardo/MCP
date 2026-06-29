@@ -1,0 +1,49 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  # Valida que cada proyecto instala correctamente con su lockfile.
+  # Estricto: si uv.lock está desincronizado o las deps no resuelven, falla.
+  sync:
+    name: uv sync (${{ matrix.project }})
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        project:
+          - "Introduction to Model Context Protocol/cli_project"
+          - "Introduction to Model Context Protocol/cli_project_COMPLETE"
+          - "Model Context Protocol_ Advanced Topics/notifications"
+          - "Model Context Protocol_ Advanced Topics/roots"
+          - "Model Context Protocol_ Advanced Topics/sampling"
+          - "Model Context Protocol_ Advanced Topics/transport-http"
+    steps:
+      - uses: actions/checkout@v4
+      - name: Instalar uv
+        uses: astral-sh/setup-uv@v4
+        with:
+          enable-cache: true
+      - name: uv sync (estricto, con lockfile)
+        working-directory: ${{ matrix.project }}
+        run: uv sync --locked
+
+  # Reporta hallazgos de ruff a nivel repo, sin bloquear el build.
+  # El código de ejemplo es de terceros; el lint es informativo.
+  lint:
+    name: ruff (informativo)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Instalar uv
+        uses: astral-sh/setup-uv@v4
+      - name: ruff check (no bloqueante)
+        run: uvx ruff check --exit-zero --output-format=github .
+      - name: ruff format --check (no bloqueante)
+        run: uvx ruff format --check . || true
