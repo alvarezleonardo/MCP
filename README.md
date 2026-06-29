@@ -146,7 +146,12 @@ uv run main.py
 
 ## Créditos y atribución
 
-El material teórico y los proyectos de ejemplo están basados en los cursos de **Anthropic** sobre Model Context Protocol: *Introduction to Model Context Protocol* y *Model Context Protocol: Advanced Topics*, disponibles en la plataforma oficial de cursos de Anthropic: <https://anthropic.skilljar.com/>. Los documentos fuente originales se conservan en [`assets/`](./assets/).
+El material teórico y los proyectos de ejemplo están basados en los cursos oficiales de **Anthropic** sobre Model Context Protocol:
+
+- [Introduction to Model Context Protocol](https://anthropic.skilljar.com/introduction-to-model-context-protocol) (Módulo 1)
+- [Model Context Protocol: Advanced Topics](https://anthropic.skilljar.com/model-context-protocol-advanced-topics) (Módulo 2)
+
+Disponibles en la plataforma oficial de cursos de Anthropic: <https://anthropic.skilljar.com/>. Los documentos fuente originales se conservan en [`assets/`](./assets/).
 
 Las **notas en español** (archivos `.md`) y los **diagramas** son una reelaboración propia de ese material. El **código** de los proyectos de ejemplo pertenece a sus autores originales (Anthropic) y se incluye con fines educativos.
 
