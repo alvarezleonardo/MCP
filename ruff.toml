@@ -1,0 +1,15 @@
+# Configuración compartida de Ruff para todos los proyectos del repo.
+# Docs: https://docs.astral.sh/ruff/
+target-version = "py310"
+line-length = 88
+
+[lint]
+# E/W: pycodestyle, F: pyflakes, I: isort, UP: pyupgrade, B: bugbear
+select = ["E", "W", "F", "I", "UP", "B"]
+ignore = [
+    "E501",  # longitud de línea (la maneja el formateador)
+]
+
+[format]
+quote-style = "double"
+indent-style = "space"
