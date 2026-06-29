@@ -1,111 +1,67 @@
-# MCP Chat
+# MCP Chat (punto de partida)
 
-MCP Chat is a command-line interface application that enables interactive chat capabilities with AI models through the Anthropic API. The application supports document retrieval, command-based prompts, and extensible tool integrations via the MCP (Model Control Protocol) architecture.
+Aplicación de línea de comandos que habilita un chat interactivo con un modelo de lenguaje (vía la API de Anthropic) y le suma herramientas, recursos y prompts a través de un servidor **MCP (Model Context Protocol)**.
 
-## Prerequisites
+Esta es la **versión base** del Módulo 1: trae los mismos archivos que la solución pero con **TODOs para completar** mientras seguís las notas. La solución de referencia está en [`../cli_project_COMPLETE`](../cli_project_COMPLETE/).
 
-- Python 3.9+
-- Anthropic API Key
+> Teoría paso a paso en las notas del módulo: [Qué es MCP](../01-que-es-mcp.md) · [Arquitectura](../02-arquitectura-y-flujo.md) · [Herramientas](../03-herramientas-e-inspector.md) · [Cliente](../04-cliente-mcp.md) · [Recursos](../05-recursos.md) · [Prompts](../06-prompts.md).
 
-## Setup
+## Requisitos
 
-### Step 1: Configure the environment variables
+- Python 3.10+
+- API key de Anthropic (los ejemplos usan Claude como implementación concreta; ver la sección [Independiente del modelo](../../README.md#independiente-del-modelo-model-agnostic) del README raíz).
 
-1. Create or edit the `.env` file in the project root and verify that the following variables are set correctly:
+## Configuración
+
+Creá un archivo `.env` en la raíz del proyecto con tu credencial:
 
 ```
-ANTHROPIC_API_KEY=""  # Enter your Anthropic API secret key
+ANTHROPIC_API_KEY=""   # tu clave secreta de Anthropic
 ```
 
-### Step 2: Install dependencies
+## Instalación
 
-#### Option 1: Setup with uv (Recommended)
-
-[uv](https://github.com/astral-sh/uv) is a fast Python package installer and resolver.
-
-1. Install uv, if not already installed:
+Con [uv](https://docs.astral.sh/uv/) (recomendado):
 
 ```bash
-pip install uv
+uv sync
 ```
 
-2. Create and activate a virtual environment:
+## Cómo correr
 
 ```bash
-uv venv
-source .venv/bin/activate  # On Windows: .venv\Scripts\activate
-```
-
-3. Install dependencies:
-
-```bash
-uv pip install -e .
-```
-
-4. Run the project
-
-```bash
+# Aplicación CLI de chat completa
 uv run main.py
+
+# Inspector de MCP en el navegador (probar el servidor sin la CLI)
+uv run mcp dev mcp_server.py
 ```
 
-#### Option 2: Setup without uv
+## El ejercicio
 
-1. Create and activate a virtual environment:
+Para completar la funcionalidad MCP:
 
-```bash
-python -m venv .venv
-source .venv/bin/activate  # On Windows: .venv\Scripts\activate
-```
+1. Resolvé los TODOs en `mcp_server.py` (definir tools, recursos y prompts).
+2. Implementá las funciones faltantes en `mcp_client.py` (`list_tools`, `call_tool`, `read_resource`, etc.).
 
-2. Install dependencies:
+Compará tu avance contra la [solución completa](../cli_project_COMPLETE/) cuando lo necesites.
 
-```bash
-pip install anthropic python-dotenv prompt-toolkit "mcp[cli]==1.8.0"
-```
+## Uso
 
-3. Run the project
+### Chat básico
 
-```bash
-python main.py
-```
+Escribí tu mensaje y presioná Enter para conversar con el modelo.
 
-## Usage
-
-### Basic Interaction
-
-Simply type your message and press Enter to chat with the model.
-
-### Document Retrieval
-
-Use the @ symbol followed by a document ID to include document content in your query:
+### Recuperación de documentos (recursos)
 
 ```
-> Tell me about @deposition.md
+> Contame sobre @deposition.md
 ```
 
-### Commands
+### Comandos (prompts)
 
-Use the / prefix to execute commands defined in the MCP server:
+Usá `/` para ejecutar prompts del servidor MCP (autocompletan con Tab):
 
 ```
 > /summarize deposition.md
 ```
-
-Commands will auto-complete when you press Tab.
-
-## Development
-
-### Adding New Documents
-
-Edit the `mcp_server.py` file to add new documents to the `docs` dictionary.
-
-### Implementing MCP Features
-
-To fully implement the MCP features:
-
-1. Complete the TODOs in `mcp_server.py`
-2. Implement the missing functionality in `mcp_client.py`
-
-### Linting and Typing Check
-
-There are no lint or type checks implemented.
